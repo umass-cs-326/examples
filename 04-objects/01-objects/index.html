@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <title>04 Objects</title>
+</head>
+<script>
+    // Create a person object.
+    let person = { 'name': 'María Lopez', 'SPIRE': 12345678 };
+
+    // Delete the name property.
+    delete person.name;
+
+    // Modify the name property.
+    person.name = 'María';
+
+    // Add a new property.
+    person.age = 21;
+
+    // Add a new property, a nested object.
+    person.hometown = { city: 'Miami', state: 'Florida', country: 'USA' };
+    console.log(person.hometown.city);
+
+    // Add a function to the object.
+    person.print = function () {
+        console.log(this.name + ' ' + this.SPIRE);
+    }
+
+    // Call the object's function.
+    person.print();
+
+    // Modify the name property.
+    person.name = "Carlos";
+
+    // Call the object's function.
+    person.print();
+
+    // Create a string representation of an object.
+    let str = '{ "name" : "fred" }';
+
+    // Parse a string representation of an object.
+    let obj = JSON.parse(str);
+
+    // Create a new string object.
+    let test = 'tEst';
+
+    // Convert the string to uppercase.
+    let upperList = test.split('').map((c) => { return c.toUpperCase(); });
+    let upperStr = upperList.join('');
+
+    // Convert a string's characters to their corresponding numbers.
+    let alpha = 'abcABC';
+    alpha.split('').forEach((c) => { console.log(c.charCodeAt(0)); });
+</script>
+
+</html>
