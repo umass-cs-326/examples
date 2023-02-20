@@ -1,11 +1,10 @@
 <html>
-
-<head>
+  <head>
     <title>04 Objects</title>
-</head>
-<script>
+  </head>
+  <script>
     // Create a person object.
-    let person = { 'name': 'María Lopez', 'SPIRE': 12345678 };
+    let person = { name: 'María Lopez', SPIRE: 12345678 };
 
     // Delete the name property.
     delete person.name;
@@ -20,16 +19,20 @@
     person.hometown = { city: 'Miami', state: 'Florida', country: 'USA' };
     console.log(person.hometown.city);
 
+    for (let i = 0; i < 10; i++) {
+      console.log(i);
+    }
+
     // Add a function to the object.
     person.print = function () {
-        console.log(this.name + ' ' + this.SPIRE);
-    }
+      console.log(this.name + ' ' + this.SPIRE);
+    };
 
     // Call the object's function.
     person.print();
 
     // Modify the name property.
-    person.name = "Carlos";
+    person.name = 'Carlos';
 
     // Call the object's function.
     person.print();
@@ -44,12 +47,15 @@
     let test = 'tEst';
 
     // Convert the string to uppercase.
-    let upperList = test.split('').map((c) => { return c.toUpperCase(); });
+    let upperList = test.split('').map((c) => {
+      return c.toUpperCase();
+    });
     let upperStr = upperList.join('');
 
     // Convert a string's characters to their corresponding numbers.
     let alpha = 'abcABC';
-    alpha.split('').forEach((c) => { console.log(c.charCodeAt(0)); });
-</script>
-
+    alpha.split('').forEach((c) => {
+      console.log(c.charCodeAt(0));
+    });
+  </script>
 </html>
