@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>03 Forms</title>
+  </head>
+  <body>
+    <!-- The text below is from MDN. -->
+
+    <!-- Web forms are one of the main points of interaction between a user and
+a web site or application. Forms allow users to enter data, which is generally
+sent to a web server for processing and storage (see Sending form data later in
+the module), or used on the client-side to immediately update the interface in
+some way (for example, add another item to a list, or show or hide a UI
+feature).-->
+
+    <!-- A web form's HTML is made up of one or more form controls (sometimes
+called widgets), plus some additional elements to help structure the overall
+form — they are often referred to as HTML forms. The controls can be single or
+multi-line text fields, dropdown boxes, buttons, checkboxes, or radio buttons,
+and are mostly created using the <input> element, although there are some other
+elements to learn about too.-->
+
+    <!-- It is always good to step back and design a form. -->
+    <p>Take a look at this design of a UI form:</p>
+    <img
+      src="https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form/form-sketch-low.jpg"
+      alt="UI design"
+    />
+
+    <!-- A form begins with a <form> tag. The rest of the form "controls" are contained within the form. -->
+    <h3>Form designed with a list.</h3>
+    <form>
+      <!-- We can use a list element to structure our form. -->
+      <ul>
+        <li>
+          <label for="name">Name:</label>
+          <input type="text" id="name" />
+        </li>
+
+        <li>
+          <label for="email">Email:</label>
+          <input type="email" id="email" />
+        </li>
+
+        <li>
+          <label for="password">Password:</label>
+          <input type="password" id="password" />
+        </li>
+
+        <li>
+          <label for=""msg">Message:</label>
+          <textarea id="msg" rows="4" cols="50"></textarea>
+        </li>
+      </ul>
+    </form>
+
+    <!-- This is a horizontal rule; used to "separate" things. -->
+    <hr>
+
+    <!-- We can design the same form using a table. -->
+    <h3>Form designed with a table.</h3>
+    <form>
+      <table>
+        <tr>
+          <td><label for="name2">Name:</label></td>
+          <td><input type="text" id="name2" /></td>
+        </tr>
+        <tr>
+          <td><label for="email2">Email:</label></td>
+          <td><input type="email" id="email2" /></td>
+        </tr>
+        <tr>
+          <td><label for="password2">Password:</label></td>
+          <td><input type="password" id="password2" /></td>
+        </tr>
+        <tr>
+          <td><label for="msg2">Message:</label></td>
+          <td><textarea id="msg2" rows="4" cols="50"></textarea></td>
+        </tr>
+      </table>
+    </form>
+
+    <!-- There are lots of form control elements. -->
+    <form>
+      <label for="myBrowser">Choose a browser from this list:</label>
+      <input list="browsers" id="myBrowser" name="myBrowser" />
+      <datalist id="browsers">
+        <option value="Chrome">
+        <option value="Firefox">
+        <option value="Internet Explorer">
+        <option value="Opera">
+        <option value="Safari">
+        <option value="Microsoft Edge">
+      </datalist>
+
+      <br>
+      <button type="submit" id="submit-btn">Submit</button>
+      
+      <br>
+      <input type="button" value="Go" />
+
+      <br>
+      <label for="pet-select">Choose a pet:</label>
+      <select name="pets" id="pet-select" required>
+          <option value="">--Please choose an option--</option>
+          <option value="dog">Dog</option>
+          <option value="cat">Cat</option>
+          <option value="hamster">Hamster</option>
+          <option value="parrot">Parrot</option>
+          <option value="spider">Spider</option>
+          <option value="goldfish">Goldfish</option>
+      </select>
+    </form>
+  </body>
+</html>
