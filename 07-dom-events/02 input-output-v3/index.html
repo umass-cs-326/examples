@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Input/Output</title>
+    <!-- Load in display.js as a module. -->
+    <!-- <script src="display.js"></script> -->
+    <script type="module" src="display.js"></script>
+
+    <!-- Move this code into display.js -->
+    <!-- <script>
+      function doIt() {
+        const input = document.getElementById("input").value,
+          output = document.getElementById("output"),
+          result = display(input);
+        output.value = result;
+      }
+    </script> -->
+  </head>
+  <body>
+    <center>
+      <h1>Input/Output</h1>
+      <img
+        alt="input-output"
+        src="https://3.bp.blogspot.com/-u_Yi8z1_yJ8/WBtQazL681I/AAAAAAAAEHU/-K2q1HexnO0My0UcqOIEQjynBpexkB-DgCLcB/s400/8233546_orig.gif"
+      />
+
+      <p></p>
+
+      <form>
+        <label for="input">Input:</label>
+        <input type="text" id="input" />
+        <label for="output">Output:</label>
+        <input type="text" id="output" readonly="readonly" />
+        <!-- Remove the onClick="doIt()" code. Not a good way to do things. 
+             We will also give the button an id.
+        -->
+        <!-- <input type="button" onClick="doIt()" value="Go" /> -->
+        <input type="button" id="go-button" value="Go" />
+      </form>
+    </center>
+  </body>
+</html>
