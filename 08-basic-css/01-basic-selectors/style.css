@@ -1,0 +1,48 @@
+/* 
+SELECTOR {
+    PROPERTY: VALUE;
+    ...
+}
+
+SELECTOR: what do you want to set the style of?
+PROPERTY: what property do you want to set?
+VALUE: what value do you want to set the property to?
+*/
+
+/* tag selector (applies to all) */
+div {
+  color: red;
+}
+
+/* id selector */
+#universe {
+  background-color: blue;
+}
+
+/* class selector */
+.sibling {
+  border: 1px dashed cadetblue;
+}
+
+/* pseudo-selector */
+.sibling:hover {
+  background-color: bisque;
+}
+
+/* child selector */
+div > div > div {
+  color: green;
+}
+
+/* sibling selector */
+div + p {
+  font-weight: bolder;
+  color: bisque;
+  background-color: blueviolet;
+}
+
+/* combo */
+span.important {
+  color: red;
+  font-size: 43px;
+}

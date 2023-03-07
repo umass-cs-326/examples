@@ -1,0 +1,39 @@
+/* 
+SELECTOR {
+    PROPERTY: VALUE;
+    ...
+}
+
+SELECTOR: what do you want to set the style of?
+PROPERTY: what property do you want to set?
+VALUE: what value do you want to set the property to?
+*/
+
+#boxes {
+  width: 300px;
+  height: 300px;
+  margin-left: 200px;
+  margin-top: 100px;
+  padding: 1px;
+  background-color: bisque;
+}
+
+.box {
+  border: 1px dashed cadetblue;
+  width: 90%;
+  padding: 1px;
+  margin: 1px auto;
+  margin-top: 5px;
+}
+
+#box1 {
+  background-color: green;
+}
+
+#box2 {
+  background-color: paleturquoise;
+}
+
+#box3 {
+  background-color: peru;
+}

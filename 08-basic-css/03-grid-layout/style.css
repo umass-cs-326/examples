@@ -1,0 +1,44 @@
+/* 
+SELECTOR {
+    PROPERTY: VALUE;
+    ...
+}
+
+SELECTOR: what do you want to set the style of?
+PROPERTY: what property do you want to set?
+VALUE: what value do you want to set the property to?
+*/
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+}
+
+#item1 {
+  background-color: antiquewhite;
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+#item2 {
+  background-color: aqua;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+#item3 {
+  background-color: azure;
+}
+
+#item4 {
+  background-color: blueviolet;
+}
+
+#item5 {
+  background-color: cadetblue;
+}
+
+#item6 {
+  background-color: chartreuse;
+}
