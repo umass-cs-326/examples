@@ -10,7 +10,7 @@ VALUE: what value do you want to set the property to?
 */
 
 /* tag selector (applies to all) */
-div {
+p {
   color: red;
 }
 
