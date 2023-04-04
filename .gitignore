@@ -104,3 +104,5 @@ dist
 
 # TernJS port file
 .tern-port
+
+14-crud-1/05-pouchdb/mydb
