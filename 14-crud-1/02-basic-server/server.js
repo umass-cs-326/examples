@@ -43,7 +43,7 @@ function basicServer(request, response) {
   } else if (pathname.startsWith('/person/html')) {
     // Return the data in HTML format.
     response.writeHead(200, { 'Content-Type': 'text/html' });
-    response.write(`<h1>${data.name}</h1>`);
+    response.write(`<h1 style="color: red">${data.name}</h1>`);
     response.write(`<p>Age: ${data.age}</p>`);
     response.end();
   } else if (pathname.startsWith('/person')) {

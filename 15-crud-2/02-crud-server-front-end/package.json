@@ -1,0 +1,12 @@
+{
+  "name": "04-crud-files",
+  "version": "1.0.0",
+  "description": "",
+  "main": "crud.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tim Richards",
+  "license": "ISC"
+}
