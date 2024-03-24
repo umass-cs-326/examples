@@ -38,10 +38,13 @@ const App = mount => {
     viewElm.innerHTML = '';
     if (view === 'todolist') {
       viewElm.appendChild(todolist);
+      window.location.hash = view;
     } else if (view === 'archive') {
       viewElm.appendChild(archive);
+      window.location.hash = view;
     } else {
       viewElm.appendChild(todolist);
+      window.location.hash = 'todolist';
     }
   };
 

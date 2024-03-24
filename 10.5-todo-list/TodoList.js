@@ -19,7 +19,7 @@ const TodoList = pubsub => {
   elm.id = 'todolist';
 
   pubsub.subscribe('taskAdded', ({ tasks, task }) => {
-    storage.save([...tasks, Task(task)]);
+    storage.save([...tasks, task]);
   });
 
   pubsub.subscribe('taskDeleted', ({ tasks, task }) => {
