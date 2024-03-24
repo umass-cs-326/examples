@@ -1,50 +1,59 @@
-import Task from './Task.js';
-import TextInput from './TextInput.js';
-import TaskList from './TaskList.js';
-import TodoList from './TodoList.js';
-import Storage from './Storage.js';
+import ArchiveView from './ArchiveView.js';
+import TodoListView from './TodoListView.js';
+import NavBar from './NavBar.js';
+import PubSub from './PubSub.js';
 
-const App = mountPoint => {
-  const storage = Storage();
+/**
+ * Mounts the application to the specified element and sets up the app
+ * structure, views, navigation, and initial view.
+ *
+ * @param {string} mount - The ID of the element where the app will be mounted.
+ */
+const App = mount => {
+  // Capture the root element. This is where the app will be mounted.
+  const root = document.getElementById(mount);
 
-  // Restore the tasks from local storage or use the provided default tasks.
-  const tasks = storage.restore([
-    Task('Learn about Web Components'),
-    Task('Go for a walk'),
-  ]);
+  // Create the app structure. This includes the navbar and the main view.
+  root.innerHTML = `<div id="app">
+      <div id="navbar"></div>
+      <div id="main-view"></div>
+    </div >`;
 
-  // Get the mount point.
-  const mountDom = document.getElementById(mountPoint);
+  // Capture the navbar and main view elements.
+  const navbarElm = document.getElementById('navbar');
+  const viewElm = document.getElementById('main-view');
 
-  // Used to reference the dom element for this UI component.
-  let dom = document.createElement('div');
-  dom.id = 'App';
+  // Create the pubsub instance. This will be used to communicate between the
+  // views. It is passed to the views so they can publish and subscribe to
+  // events. This is a simple way to implement a basic event system.
+  const pubsub = PubSub();
 
-  const addTask = (tasks, task) => {
-    mount([...tasks, Task(task)]);
+  // Create the views.
+  const todolist = TodoListView(pubsub);
+  const archive = ArchiveView(pubsub);
+
+  // Navigate to the view based on the hash. If no hash is present, default to
+  // the todolist view.
+  const navigateTo = view => {
+    viewElm.innerHTML = '';
+    if (view === 'todolist') {
+      viewElm.appendChild(todolist);
+    } else if (view === 'archive') {
+      viewElm.appendChild(archive);
+    } else {
+      viewElm.appendChild(todolist);
+    }
   };
 
-  const deleteTask = (tasks, task) => {
-    const index = tasks.indexOf(task);
-    tasks.splice(index, 1);
-    mount(tasks);
-  };
+  // Create the navigation bar. This will allow the user to switch between the
+  // views.
+  const navbar = NavBar(navigateTo);
 
-  const mount = tasks => {
-    // Build the UI components.
-    const textInput = TextInput(addTask, tasks);
-    const taskList = TaskList(deleteTask, tasks);
-    const todoList = TodoList(textInput, taskList);
-    dom.innerHTML = '';
-    dom.appendChild(todoList);
+  // Append the navbar to the navbar element.
+  navbarElm.appendChild(navbar);
 
-    // Add the UI component dom to the mount point.
-    mountDom.innerHTML = '';
-    mountDom.appendChild(dom);
-    storage.save(tasks);
-  };
-
-  mount(tasks);
+  // Navigate to the initial view.
+  navigateTo('todolist');
 };
 
 export default App;

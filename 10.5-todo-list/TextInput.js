@@ -1,6 +1,7 @@
-// Defines a UI component for text input
+import Task from './Task.js';
 
-const TextInput = (addTask, tasks) => {
+// Defines a UI component for text input
+const TextInput = (pubsub, tasks) => {
   const container = document.createElement('div');
   container.id = 'input-container';
 
@@ -21,13 +22,20 @@ const TextInput = (addTask, tasks) => {
       return;
     } else {
       taskInput.value = '';
-      addTask(tasks, taskName);
+      const task = Task(taskName);
+      pubsub.publish('taskAdded', { tasks, task });
     }
   };
 
   container
     .querySelector('#addTaskButton')
     .addEventListener('click', addTaskToList);
+
+  container.querySelector('#taskInput').addEventListener('keyup', event => {
+    if (event.key === 'Enter') {
+      addTaskToList();
+    }
+  });
 
   return container;
 };
