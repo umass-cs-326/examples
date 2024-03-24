@@ -26,7 +26,6 @@ const TodoList = pubsub => {
     const index = tasks.indexOf(task);
     tasks.splice(index, 1);
     storage.save(tasks);
-    storage.archive(task);
   });
 
   const input = TextInput(pubsub, tasks);
