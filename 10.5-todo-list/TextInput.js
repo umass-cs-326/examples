@@ -1,6 +1,11 @@
 import Task from './Task.js';
 
-// Defines a UI component for text input
+/**
+ * Defines a UI component for text input.
+ * @param {Object} pubsub - The pubsub object for event handling.
+ * @param {Array} tasks - The array of tasks.
+ * @returns {HTMLElement} - The container element for the text input component.
+ */
 const TextInput = (pubsub, tasks) => {
   const container = document.createElement('div');
   container.id = 'input-container';
@@ -14,6 +19,9 @@ const TextInput = (pubsub, tasks) => {
 
   container.innerHTML = body;
 
+  /**
+   * Adds a new task to the task list.
+   */
   const addTaskToList = () => {
     const taskInput = document.getElementById('taskInput');
     const taskName = taskInput.value;
@@ -31,8 +39,11 @@ const TextInput = (pubsub, tasks) => {
     .querySelector('#addTaskButton')
     .addEventListener('click', addTaskToList);
 
+  // Add event listener to the task input for the 'keyup' event
   container.querySelector('#taskInput').addEventListener('keyup', event => {
+    // Check if the 'Enter' key was pressed
     if (event.key === 'Enter') {
+      // Call the addTaskToList function
       addTaskToList();
     }
   });
