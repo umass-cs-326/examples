@@ -27,7 +27,6 @@ const TaskList = (pubsub, tasks) => {
 
     // Set the inner HTML of the list item, including the task name and a delete
     // button
-    console.log(JSON.stringify(task, 2, 2));
     taskItem.innerHTML = `
       ${task.name}
       <button class="deleteButton">Delete</button>
