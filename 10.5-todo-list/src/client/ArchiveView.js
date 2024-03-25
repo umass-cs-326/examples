@@ -1,4 +1,4 @@
-import Storage from './Storage.js';
+import Server from './Server.js';
 
 /**
  * Represents the ArchiveView component.
@@ -6,10 +6,10 @@ import Storage from './Storage.js';
  * @returns {HTMLElement} - The root element of the ArchiveView component.
  */
 const ArchiveView = pubsub => {
-  const storage = Storage();
+  const server = Server();
 
   // Restore archived tasks from storage
-  const tasks = storage.restoreArchive();
+  const tasks = server.restoreArchive();
 
   // Create the root element
   const elm = document.createElement('div');
@@ -25,7 +25,7 @@ const ArchiveView = pubsub => {
     `;
 
     elm.appendChild(taskItem);
-    storage.archive(task);
+    server.archive(task);
   });
 
   // Render each task in the archive

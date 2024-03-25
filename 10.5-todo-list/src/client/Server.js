@@ -2,7 +2,7 @@
  * Storage module for managing tasks and archive in local storage.
  * @returns {Object} Storage object with methods.
  */
-const Storage = () => ({
+const Server = () => ({
   /**
    * Restores tasks from local storage or returns default state.
    * @param {Array} defaultState - The default state to return if no tasks are
@@ -43,4 +43,4 @@ const Storage = () => ({
   },
 });
 
-export default Storage;
+export default Server;

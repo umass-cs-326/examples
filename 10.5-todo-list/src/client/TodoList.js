@@ -1,7 +1,7 @@
 import Task from './Task.js';
 import TextInput from './TextInput.js';
 import TaskList from './TaskList.js';
-import Storage from './Storage.js';
+import Server from './Server.js';
 import PubSub from './PubSub.js';
 
 /**
@@ -10,10 +10,10 @@ import PubSub from './PubSub.js';
  * @returns {HTMLElement} - The root element of the TodoList component.
  */
 const TodoList = pubsub => {
-  const storage = Storage();
+  const server = Server();
 
   // Restore the tasks from local storage or use the provided default tasks.
-  const tasks = storage.restore([
+  const tasks = server.restore([
     Task('Learn about Web Components'),
     Task('Go for a walk'),
   ]);
@@ -29,7 +29,7 @@ const TodoList = pubsub => {
    * task.
    */
   pubsub.subscribe('taskAdded', ({ tasks, task }) => {
-    storage.save([...tasks, task]);
+    server.save([...tasks, task]);
   });
 
   /**
@@ -40,7 +40,7 @@ const TodoList = pubsub => {
   pubsub.subscribe('taskDeleted', ({ tasks, task }) => {
     const index = tasks.indexOf(task);
     tasks.splice(index, 1);
-    storage.save(tasks);
+    server.save(tasks);
   });
 
   const input = TextInput(pubsub, tasks);
