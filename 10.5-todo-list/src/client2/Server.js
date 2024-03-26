@@ -54,7 +54,7 @@ export async function fetch(
   path,
   options = { method: 'GET' },
   shouldFail = false,
-  delay = 200
+  delay = 0
 ) {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
