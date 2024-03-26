@@ -1,62 +1,52 @@
-import ArchiveView from './ArchiveView.js';
-import TodoListView from './TodoListView.js';
-import NavBar from './NavBar.js';
-import PubSub from './PubSub.js';
+import { TodoListView } from './TodoListView.js';
+import { Events } from './Events.js';
+import { NavBar } from './Navbar.js';
 
-/**
- * Mounts the application to the specified element and sets up the app
- * structure, views, navigation, and initial view.
- *
- * @param {string} mount - The ID of the element where the app will be mounted.
- */
-const App = mount => {
-  // Capture the root element. This is where the app will be mounted.
-  const root = document.getElementById(mount);
+export class App {
+  #todolistViewElm = null;
+  #mainViewElm = null;
+  #events = null;
 
-  // Create the app structure. This includes the navbar and the main view.
-  root.innerHTML = `<div id="app">
-      <div id="navbar"></div>
-      <div id="main-view"></div>
-    </div >`;
+  constructor() {
+    this.#events = Events.events();
+  }
 
-  // Capture the navbar and main view elements.
-  const navbarElm = document.getElementById('navbar');
-  const viewElm = document.getElementById('main-view');
+  async render(root) {
+    const rootElm = document.getElementById(root);
+    rootElm.innerHTML = '';
 
-  // Create the pubsub instance. This will be used to communicate between the
-  // views. It is passed to the views so they can publish and subscribe to
-  // events. This is a simple way to implement a basic event system.
-  const pubsub = PubSub();
+    const navbarElm = document.createElement('div');
+    navbarElm.id = 'navbar';
+    const navbar = new NavBar();
+    navbarElm.appendChild(await navbar.render());
 
-  // Create the views.
-  const todolist = TodoListView(pubsub);
-  const archive = ArchiveView(pubsub);
+    this.#mainViewElm = document.createElement('div');
+    this.#mainViewElm.id = 'main-view';
 
-  // Navigate to the view based on the hash. If no hash is present, default to
-  // the todolist view.
-  const navigateTo = view => {
-    viewElm.innerHTML = '';
+    rootElm.appendChild(navbarElm);
+    rootElm.appendChild(this.#mainViewElm);
+
+    const todoListView = new TodoListView();
+    this.#todolistViewElm = await todoListView.render();
+    this.#navigateTo('todolist');
+
+    this.#events.subscribe('navigateTo', view => this.#navigateTo(view));
+  }
+
+  #navigateTo(view) {
+    this.#mainViewElm.innerHTML = '';
     if (view === 'todolist') {
-      viewElm.appendChild(todolist);
+      this.#mainViewElm.appendChild(this.#todolistViewElm);
       window.location.hash = view;
     } else if (view === 'archive') {
-      viewElm.appendChild(archive);
+      // TODO: this is where we want to add the archive view
+      const archive = document.createElement('div');
+      archive.innerHTML = '<h1>Archive view (coming soon)</h1>';
+      this.#mainViewElm.appendChild(archive);
       window.location.hash = view;
     } else {
-      viewElm.appendChild(todolist);
+      this.#mainViewElm.appendChild(this.todolist);
       window.location.hash = 'todolist';
     }
-  };
-
-  // Create the navigation bar. This will allow the user to switch between the
-  // views.
-  const navbar = NavBar(navigateTo);
-
-  // Append the navbar to the navbar element.
-  navbarElm.appendChild(navbar);
-
-  // Navigate to the initial view.
-  navigateTo('todolist');
-};
-
-export default App;
+  }
+}

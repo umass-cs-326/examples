@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server ./src/client -p 3000 -c-1 -o",
-    "start-dev": "http-server ./src/client2 -p 3000 -c-1 -o -a localhost"
+    "start": "http-server ./src/client -p 3000 -c-1 -o"
   },
   "keywords": [],
   "author": "",

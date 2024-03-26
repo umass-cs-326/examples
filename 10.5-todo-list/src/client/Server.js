@@ -1,46 +1,120 @@
-/**
- * Storage module for managing tasks and archive in local storage.
- * @returns {Object} Storage object with methods.
- */
-const Server = () => ({
-  /**
-   * Restores tasks from local storage or returns default state.
-   * @param {Array} defaultState - The default state to return if no tasks are
-   * found in local storage.
-   * @returns {Array} The restored tasks or the default state.
-   */
-  restore: defaultState => {
-    const value = localStorage.getItem('tasks');
-    return value ? JSON.parse(value) : defaultState;
-  },
+class Database {
+  static #instance = null;
 
-  /**
-   * Saves tasks to local storage.
-   * @param {Array} state - The tasks to be saved.
-   */
-  save: state => {
-    localStorage.setItem('tasks', JSON.stringify(state));
-  },
+  static #initial = {
+    tasks: [
+      { id: 1, name: 'Learn about Web Components' },
+      { id: 2, name: 'Go for a walk' },
+    ],
+  };
 
-  /**
-   * Archives a task by adding it to the archive in local storage.
-   * @param {Object} state - The task to be archived.
-   */
-  archive: state => {
-    const value = localStorage.getItem('archive');
-    const archive = value ? JSON.parse(value) : [];
-    archive.push(state);
-    localStorage.setItem('archive', JSON.stringify(archive));
-  },
+  static async db() {
+    if (
+      !Database.#instance ||
+      (await Database.#instance.get('/tasks')) === null
+    ) {
+      Database.#instance = new Database();
 
-  /**
-   * Restores archived tasks from local storage.
-   * @returns {Array} The restored archived tasks.
-   */
-  restoreArchive: () => {
-    const value = localStorage.getItem('archive');
-    return value ? JSON.parse(value) : [];
-  },
-});
+      // Initialize the database with the initial tasks if it is empty.
+      if ((await this.#instance.get('/tasks')) === null) {
+        await Database.#instance.set(
+          '/tasks',
+          JSON.stringify(Database.#initial.tasks)
+        );
+      }
+    }
+    return Database.#instance;
+  }
 
-export default Server;
+  #localStorage = null;
+
+  constructor() {
+    this.#localStorage = window.localStorage;
+  }
+
+  async set(key, value) {
+    if (key === '/reset') {
+      this.#localStorage.clear();
+      this.#localStorage.setItem(
+        '/tasks',
+        JSON.stringify(Database.#initial.tasks)
+      );
+      return;
+    }
+
+    this.#localStorage.setItem(key, value);
+  }
+
+  async get(key) {
+    return this.#localStorage.getItem(key);
+  }
+}
+
+export async function fetch(
+  path,
+  options = { method: 'GET' },
+  shouldFail = false,
+  delay = 0
+) {
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      if (shouldFail) {
+        const response = {
+          status: 500,
+          statusText: 'Internal Server Error',
+          body: null,
+        };
+
+        resolve(response);
+      } else if (options.method === 'GET') {
+        const db = await Database.db();
+        const body = await db.get(path);
+        const response = {
+          status: 200,
+          statusText: 'OK',
+          body,
+        };
+        resolve(response);
+      } else if (options.method === 'DELETE') {
+        const db = await Database.db();
+        const data = await db.get(path);
+        const tasks = JSON.parse(data);
+        const tasksN = tasks.filter(task => task.id !== options.body);
+        await db.set(path, JSON.stringify(tasksN));
+        const response = {
+          status: 204,
+          statusText: 'No Content',
+          body: null,
+        };
+        resolve(response);
+      } else if (options.method === 'POST') {
+        if (typeof options.body !== 'string') {
+          const response = {
+            status: 500,
+            statusText: 'Unsupported Body Format',
+            body: null,
+          };
+
+          resolve(response);
+        } else {
+          const db = await Database.db();
+          await db.set(path, options.body);
+          const response = {
+            status: 201,
+            statusText: 'Created',
+            body: null,
+          };
+          resolve(response);
+        }
+      } else {
+        const response = {
+          status: 500,
+          statusText: 'Unsupported Method or Request',
+          body: null,
+        };
+
+        resolve(response);
+      }
+    }, delay);
+  });
+}
