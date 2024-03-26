@@ -1,34 +1,51 @@
-import { PubSub } from './PubSub.js';
 import { TodoListView } from './TodoListView.js';
+import { Events } from './Events.js';
+import { NavBar } from './Navbar.js';
 
 export class App {
+  #todolistViewElm = null;
+  #mainViewElm = null;
+  #events = null;
+
   constructor() {
-    this.pubsub = new PubSub();
-    this.todolistView = new TodoListView();
+    this.#events = Events.events();
   }
 
-  render(root) {
-    root.innerHTML = `<div id="app">
-      <div id="navbar"></div>
-      <div id="main-view"></div>
-    </div >`;
+  async render(root) {
+    const rootElm = document.getElementById(root);
+    rootElm.innerHTML = '';
 
-    const navbarElm = document.getElementById('navbar');
-    const viewElm = document.getElementById('main-view');
+    const navbarElm = document.createElement('div');
+    navbarElm.id = 'navbar';
+    const navbar = new NavBar();
+    navbarElm.appendChild(await navbar.render());
 
-    this.todolistView.render(viewElm);
+    this.#mainViewElm = document.createElement('div');
+    this.#mainViewElm.id = 'main-view';
+
+    rootElm.appendChild(navbarElm);
+    rootElm.appendChild(this.#mainViewElm);
+
+    const todoListView = new TodoListView();
+    this.#todolistViewElm = await todoListView.render();
+    this.#navigateTo('todolist');
+
+    this.#events.subscribe('navigateTo', view => this.#navigateTo(view));
   }
 
   #navigateTo(view) {
-    this.viewElm.innerHTML = '';
+    this.#mainViewElm.innerHTML = '';
     if (view === 'todolist') {
-      this.viewElm.appendChild(this.todolist);
+      this.#mainViewElm.appendChild(this.#todolistViewElm);
       window.location.hash = view;
     } else if (view === 'archive') {
-      this.viewElm.appendChild(this.archive);
+      // TODO: this is where we want to add the archive view
+      const archive = document.createElement('div');
+      archive.innerHTML = '<h1>Archive view (coming soon)</h1>';
+      this.#mainViewElm.appendChild(archive);
       window.location.hash = view;
     } else {
-      this.viewElm.appendChild(this.todolist);
+      this.#mainViewElm.appendChild(this.todolist);
       window.location.hash = 'todolist';
     }
   }
