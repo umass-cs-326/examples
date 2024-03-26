@@ -65,7 +65,7 @@ class TaskInput {
     taskInputElm.id = 'text-input';
 
     const inputElm = this.#renderTextBox();
-    const buttonElm = this.#renderButton();
+    const buttonElm = this.#renderButton(inputElm);
 
     // Append the input and button to the root element
     taskInputElm.appendChild(inputElm);
@@ -92,7 +92,7 @@ class TaskInput {
     return inputElm;
   }
 
-  #renderButton() {
+  #renderButton(inputElm) {
     const buttonElm = document.createElement('button');
     buttonElm.id = 'add-task-button';
     buttonElm.innerText = 'Add Task';
